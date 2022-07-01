@@ -170,6 +170,7 @@ class ImageManipulatorView extends Component {
     }
     onConvertImageToEditableSize() {
         return __awaiter(this, void 0, void 0, function* () {
+            this.cropped = false;
             this.setState({ uri: undefined });
             const { photo: { uri: rawUri }, saveOptions } = this.props;
             Image.getSize(rawUri, (imgW, imgH) => __awaiter(this, void 0, void 0, function* () {
