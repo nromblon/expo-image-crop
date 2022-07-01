@@ -6,7 +6,7 @@ This repository was forked from [brunon80/expo-image-crop](https://github.com/br
 The changes (at 2022/06/20) are as follows:
 
 * Up supported Expo SDK to 44.
-* Support aspect.
+* Support aspect ratio.
 * Support images longer than the screen with scroll.
 * Several icons can be changed.
 * Remove unnecessary dependencies from package.json.

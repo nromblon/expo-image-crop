@@ -40,11 +40,11 @@ class ImageManipulatorView extends Component {
             this.setState({ cropMode: false });
         };
         this.onCropImage = () => {
-            this.setState({ processing: true });
             const { uri } = this.state;
             if (!uri) {
                 return;
             }
+            this.setState({ processing: true });
             Image.getSize(uri, (actualWidth, actualHeight) => __awaiter(this, void 0, void 0, function* () {
                 const cropObj = this.getCropBounds(actualWidth, actualHeight);
                 if (cropObj.height > 0 && cropObj.width > 0) {
@@ -58,7 +58,7 @@ class ImageManipulatorView extends Component {
                     this.actualSize.height = croppedHeight;
                     this.setState({
                         uri: uriCroped, base64, cropMode: false, processing: false,
-                    });
+                    }, () => this.cropped = true);
                 }
                 else {
                     this.setState({ cropMode: false, processing: false });
@@ -102,10 +102,10 @@ class ImageManipulatorView extends Component {
             const widthRatio = actualWidth / renderedImageWidth;
             const heightRatio = actualHeight / renderedImageHeight;
             return {
-                originX: this.currentPos.left * widthRatio,
-                originY: this.currentPos.top * heightRatio,
-                width: this.currentSize.width * widthRatio,
-                height: this.currentSize.height * heightRatio,
+                originX: Math.round(this.currentPos.left * widthRatio),
+                originY: Math.round(this.currentPos.top * heightRatio),
+                width: Math.round(this.currentSize.width * widthRatio),
+                height: Math.round(this.currentSize.height * heightRatio),
             };
         };
         this.filp = (uri, orientation) => __awaiter(this, void 0, void 0, function* () {
@@ -161,6 +161,7 @@ class ImageManipulatorView extends Component {
             width: 0,
             height: 0,
         };
+        this.cropped = false;
     }
     componentDidMount() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -218,7 +219,7 @@ class ImageManipulatorView extends Component {
         // this.setState(curHeight)
     }
     render() {
-        const { isVisible, onPictureChoosed, borderColor, allowRotate = true, allowFlip = true, btnTexts, fixedMask, ratio, } = this.props;
+        const { isVisible, onPictureChoosed, onBeforePictureChoosed, borderColor, allowRotate = true, allowFlip = true, btnTexts, fixedMask, ratio, } = this.props;
         const { uri, base64, cropMode, processing, } = this.state;
         const imageRatio = this.actualSize.height / this.actualSize.width;
         const screenHeight = Dimensions.get('window').height - this.state.safeAreaHeight;
@@ -286,8 +287,24 @@ class ImageManipulatorView extends Component {
                                         React.createElement(MaterialIcons, { size: 20, name: "flip", color: "white" })),
                                     React.createElement(TouchableOpacity, { onPress: () => {
                                             if (uri) {
-                                                onPictureChoosed({ uri, base64 });
-                                                this.onToggleModal();
+                                                Image.getSize(uri, (width, height) => {
+                                                    let success = true;
+                                                    const data = {
+                                                        uri,
+                                                        base64,
+                                                        width,
+                                                        height,
+                                                        cropped: this.cropped
+                                                    };
+                                                    if (onBeforePictureChoosed) {
+                                                        success = onBeforePictureChoosed(data);
+                                                    }
+                                                    ;
+                                                    if (success) {
+                                                        onPictureChoosed(data);
+                                                        this.onToggleModal();
+                                                    }
+                                                });
                                             }
                                         }, style: {
                                             marginLeft: 10, width: 60, height: 32, alignItems: 'center', justifyContent: 'center',
