@@ -24,6 +24,17 @@ LogBox.ignoreLogs([
 class ImageManipulatorView extends Component {
     constructor(props) {
         super(props);
+        this.initialState = {
+            uri: undefined,
+            base64: undefined,
+            cropMode: false,
+            processing: false,
+            zoomScale: 1,
+            safeAreaHeight: 0,
+            imageLayout: { x: 0, y: 0, width: 0, height: 0 },
+            enableScroll: true,
+            scrollOffsetY: 0
+        };
         this.onGetCorrectSizes = (w, h) => {
             const sizes = {
                 convertedWidth: w,
@@ -134,17 +145,10 @@ class ImageManipulatorView extends Component {
                 height: 0
             };
         });
-        this.state = {
-            uri: undefined,
-            base64: undefined,
-            cropMode: false,
-            processing: false,
-            zoomScale: 1,
-            safeAreaHeight: 0,
-            imageLayout: { x: 0, y: 0, width: 0, height: 0 },
-            enableScroll: true,
-            scrollOffsetY: 0
-        };
+        this.state = Object.assign({}, this.initialState);
+        this.initializeVariables();
+    }
+    initializeVariables() {
         this.currentPos = {
             left: 0,
             top: 0,
@@ -170,8 +174,6 @@ class ImageManipulatorView extends Component {
     }
     onConvertImageToEditableSize() {
         return __awaiter(this, void 0, void 0, function* () {
-            this.cropped = false;
-            this.setState({ uri: undefined });
             const { photo: { uri: rawUri }, saveOptions } = this.props;
             Image.getSize(rawUri, (imgW, imgH) => __awaiter(this, void 0, void 0, function* () {
                 const { convertedWidth, convertedheight } = this.onGetCorrectSizes(imgW, imgH);
@@ -208,7 +210,7 @@ class ImageManipulatorView extends Component {
     //     this.maxSizes.height = h1
     // };
     // eslint-disable-next-line camelcase
-    UNSAFE_componentWillReceiveProps() {
+    UNSAFE_componentWillReceiveProps(newProps) {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.onConvertImageToEditableSize();
         });
@@ -254,6 +256,9 @@ class ImageManipulatorView extends Component {
         }
         return (React.createElement(Modal, { animationType: "slide", transparent: true, visible: isVisible, hardwareAccelerated: true, onRequestClose: () => {
                 this.onToggleModal();
+            }, onDismiss: () => {
+                this.initializeVariables();
+                this.setState(this.initialState);
             } },
             React.createElement(SafeAreaView, { style: {
                     width: screenWidth, flexDirection: 'row', backgroundColor: 'black', justifyContent: 'space-between',
