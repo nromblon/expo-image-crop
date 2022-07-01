@@ -21,7 +21,7 @@ export default class App extends React.Component {
     this.setState({ isVisible: !isVisible });
   };
   _pickImage = async () => {
-    this.setState({ uri: null });
+    // this.setState({ uri: null });
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status === 'granted') {
       const result = await ImagePicker.launchImageLibraryAsync();
@@ -34,7 +34,7 @@ export default class App extends React.Component {
   };
 
   _pickCameraImage = async () => {
-    this.setState({ uri: null });
+    // this.setState({ uri: null });
     const { status } = await Camera.requestCameraPermissionsAsync();
     if (status === 'granted') {
       const result = await ImagePicker.launchCameraAsync();

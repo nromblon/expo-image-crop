@@ -100,30 +100,34 @@ class ImageManipulatorView extends Component<Props, State> {
     fixedMask: undefined,
   };
 
-  currentPos: {
+  currentPos!: {
     left: number,
     top: number;
   };
-  currentSize: Size;
-  maxSizes: Size;
-  actualSize: Size;
-  cropped: boolean;
+  currentSize!: Size;
+  maxSizes!: Size;
+  actualSize!: Size;
+  cropped!: boolean;
+  initialState: State = {
+    uri: undefined,
+    base64: undefined,
+    cropMode: false,
+    processing: false,
+    zoomScale: 1,
+    safeAreaHeight: 0,
+    imageLayout: { x: 0, y: 0, width: 0, height: 0 },
+    enableScroll: true,
+    scrollOffsetY: 0
+  };
 
   constructor(props: Omit<Props, 'borderColor' | 'btnTexts'> & typeof ImageManipulatorView.defaultProps) {
     super(props);
 
-    this.state = {
-      uri: undefined,
-      base64: undefined,
-      cropMode: false,
-      processing: false,
-      zoomScale: 1,
-      safeAreaHeight: 0,
-      imageLayout: { x: 0, y: 0, width: 0, height: 0 },
-      enableScroll: true,
-      scrollOffsetY: 0
-    };
+    this.state = { ...this.initialState };
+    this.initializeVariables();
+  }
 
+  initializeVariables() {
     this.currentPos = {
       left: 0,
       top: 0,
@@ -163,8 +167,6 @@ class ImageManipulatorView extends Component<Props, State> {
   };
 
   async onConvertImageToEditableSize() {
-    this.cropped = false;
-    this.setState({ uri: undefined });
     const { photo: { uri: rawUri }, saveOptions } = this.props;
     Image.getSize(rawUri, async (imgW, imgH) => {
       const { convertedWidth, convertedheight } = this.onGetCorrectSizes(imgW, imgH);
@@ -342,7 +344,7 @@ class ImageManipulatorView extends Component<Props, State> {
   // };
 
   // eslint-disable-next-line camelcase
-  async UNSAFE_componentWillReceiveProps() {
+  async UNSAFE_componentWillReceiveProps(newProps: any) {
     await this.onConvertImageToEditableSize();
   }
 
@@ -419,6 +421,10 @@ class ImageManipulatorView extends Component<Props, State> {
         hardwareAccelerated
         onRequestClose={() => {
           this.onToggleModal();
+        }}
+        onDismiss={() => {
+          this.initializeVariables();
+          this.setState(this.initialState);
         }}
       >
         <SafeAreaView
