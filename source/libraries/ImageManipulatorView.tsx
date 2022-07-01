@@ -108,6 +108,7 @@ class ImageManipulatorView extends Component<Props, State> {
   maxSizes!: Size;
   actualSize!: Size;
   cropped!: boolean;
+  mounted: boolean;
   initialState: State = {
     uri: undefined,
     base64: undefined,
@@ -125,6 +126,8 @@ class ImageManipulatorView extends Component<Props, State> {
 
     this.state = { ...this.initialState };
     this.initializeVariables();
+
+    this.mounted = false;
   }
 
   initializeVariables() {
@@ -152,6 +155,7 @@ class ImageManipulatorView extends Component<Props, State> {
   }
 
   async componentDidMount() {
+    this.mounted = true;
     await this.onConvertImageToEditableSize();
   }
 
@@ -167,21 +171,27 @@ class ImageManipulatorView extends Component<Props, State> {
   };
 
   async onConvertImageToEditableSize() {
-    const { photo: { uri: rawUri }, saveOptions } = this.props;
-    Image.getSize(rawUri, async (imgW, imgH) => {
-      const { convertedWidth, convertedheight } = this.onGetCorrectSizes(imgW, imgH);
-      const { uri, width: w, height } = await ImageManipulator.manipulateAsync(rawUri,
-        [
-          {
-            resize: {
-              width: convertedWidth,
-              height: convertedheight,
+    this.initializeVariables();
+    this.setState(this.initialState, () => {
+      const { photo: { uri: rawUri }, saveOptions } = this.props;
+      Image.getSize(rawUri, async (imgW, imgH) => {
+        const { convertedWidth, convertedheight } = this.onGetCorrectSizes(imgW, imgH);
+        const { uri, width: w, height } = await ImageManipulator.manipulateAsync(rawUri,
+          [
+            {
+              resize: {
+                width: convertedWidth,
+                height: convertedheight,
+              },
             },
-          },
-        ], saveOptions);
-      this.setState({ uri });
-      this.actualSize.width = w;
-      this.actualSize.height = height;
+          ], saveOptions);
+
+        if (this.mounted) {
+          this.setState({ uri });
+          this.actualSize.width = w;
+          this.actualSize.height = height;
+        }
+      });
     });
   }
 
@@ -197,7 +207,9 @@ class ImageManipulatorView extends Component<Props, State> {
   onToggleModal = () => {
     const { onToggleModal } = this.props;
     onToggleModal();
-    this.setState({ cropMode: false });
+    if (this.mounted) {
+      this.setState({ cropMode: false });
+    }
   };
 
   onCropImage = () => {
@@ -348,6 +360,10 @@ class ImageManipulatorView extends Component<Props, State> {
     await this.onConvertImageToEditableSize();
   }
 
+  componentWillUnmount() {
+    this.mounted = false;
+  }
+
   zoomImage() {
     // this.refs.imageScrollView.zoomScale = 5
     // this.setState({width: screenWidth})
@@ -421,10 +437,6 @@ class ImageManipulatorView extends Component<Props, State> {
         hardwareAccelerated
         onRequestClose={() => {
           this.onToggleModal();
-        }}
-        onDismiss={() => {
-          this.initializeVariables();
-          this.setState(this.initialState);
         }}
       >
         <SafeAreaView
