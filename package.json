@@ -1,6 +1,6 @@
 {
   "name": "expo-image-manipulator-view",
-  "version": "2.1.4",
+  "version": "3.0.0",
   "description": "Crop, rotate and flip images without detach your expo project!",
   "main": "index.js",
   "types": "index.d.ts",
@@ -8,9 +8,9 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@expo/vector-icons": "^12.0.0",
-    "expo-file-system": "~13.1.4",
-    "expo-image-manipulator": "~10.2.0",
+    "@expo/vector-icons": "^13.0.0",
+    "expo-file-system": "~14.0.0",
+    "expo-image-manipulator": "~10.3.1",
     "react-native-auto-height-image": "^3.2.4"
   },
   "devDependencies": {
