@@ -25,9 +25,9 @@ export default class App extends React.Component {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status === 'granted') {
       const result = await ImagePicker.launchImageLibraryAsync();
-      if (!result.cancelled) {
+      if (!result.canceled) {
         this.setState({
-          uri: result.uri,
+          uri: result.assets[0].uri,
         }, () => this.setState({ isVisible: true }));
       }
     }
@@ -39,9 +39,9 @@ export default class App extends React.Component {
     if (status === 'granted') {
       const result = await ImagePicker.launchCameraAsync();
 
-      if (!result.cancelled) {
+      if (!result.canceled) {
         this.setState({
-          uri: result.uri,
+          uri: result.assets[0].uri,
         }, () => this.setState({ isVisible: true }));
       }
     }
