@@ -37,7 +37,10 @@ export default class App extends React.Component {
     // this.setState({ uri: null });
     const { status } = await Camera.requestCameraPermissionsAsync();
     if (status === 'granted') {
-      const result = await ImagePicker.launchCameraAsync();
+      console.log(status);
+      const result = await ImagePicker.launchCameraAsync({
+        
+      });
 
       if (!result.canceled) {
         this.setState({
@@ -120,9 +123,9 @@ export default class App extends React.Component {
                 base64: true,
               }}
               btnTexts={{
-                done: '決定',
-                crop: '切り抜く',
-                processing: '処理中',
+                done: 'Done',
+                crop: 'Crop',
+                processing: 'Loading',
               }}
               ratio={{ width: 16, height: 9 }}
             />
