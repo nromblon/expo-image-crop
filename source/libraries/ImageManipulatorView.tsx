@@ -481,13 +481,6 @@ class ImageManipulatorView extends Component<Props, State> {
                           >
                             <MaterialCommunityIcons size={20} name="rotate-left" color="white" />
                           </TouchableOpacity>
-                          <TouchableOpacity onPress={() => this.onFlipImage(ImageManipulator.FlipType.Vertical)}
-                            style={{
-                              marginLeft: 10, width: 32, height: 32, alignItems: 'center', justifyContent: 'center',
-                            }}
-                          >
-                            <MaterialIcons style={{ transform: [{ rotate: '270deg' }] }} size={20} name="flip" color="white" />
-                          </TouchableOpacity>
                         </View>
                       )
                     }
@@ -496,6 +489,13 @@ class ImageManipulatorView extends Component<Props, State> {
                       && (
                         <View style={{ flexDirection: 'row' }}>
 
+                          <TouchableOpacity onPress={() => this.onFlipImage(ImageManipulator.FlipType.Vertical)}
+                            style={{
+                              marginLeft: 10, width: 32, height: 32, alignItems: 'center', justifyContent: 'center',
+                            }}
+                          >
+                            <MaterialIcons style={{ transform: [{ rotate: '270deg' }] }} size={20} name="flip" color="white" />
+                          </TouchableOpacity>
                           <TouchableOpacity onPress={() => this.onFlipImage(ImageManipulator.FlipType.Horizontal)}
                             style={{
                               marginLeft: 10, width: 32, height: 32, alignItems: 'center', justifyContent: 'center',
