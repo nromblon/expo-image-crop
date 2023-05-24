@@ -289,42 +289,43 @@ class ImageManipulatorView extends Component {
                                     React.createElement(TouchableOpacity, { onPress: () => this.onRotateImage(), style: {
                                             marginLeft: 10, width: 32, height: 32, alignItems: 'center', justifyContent: 'center',
                                         } },
-                                        React.createElement(MaterialCommunityIcons, { size: 20, name: "rotate-left", color: "white" })),
+                                        React.createElement(MaterialCommunityIcons, { size: 20, name: "rotate-left", color: "white" })))),
+                            allowFlip
+                                && (React.createElement(View, { style: { flexDirection: 'row' } },
                                     React.createElement(TouchableOpacity, { onPress: () => this.onFlipImage(ImageManipulator.FlipType.Vertical), style: {
                                             marginLeft: 10, width: 32, height: 32, alignItems: 'center', justifyContent: 'center',
                                         } },
-                                        React.createElement(MaterialIcons, { style: { transform: [{ rotate: '270deg' }] }, size: 20, name: "flip", color: "white" })))),
-                            allowFlip
-                                && (React.createElement(View, { style: { flexDirection: 'row' } },
+                                        React.createElement(MaterialIcons, { style: { transform: [{ rotate: '270deg' }] }, size: 20, name: "flip", color: "white" })),
                                     React.createElement(TouchableOpacity, { onPress: () => this.onFlipImage(ImageManipulator.FlipType.Horizontal), style: {
                                             marginLeft: 10, width: 32, height: 32, alignItems: 'center', justifyContent: 'center',
                                         } },
-                                        React.createElement(MaterialIcons, { size: 20, name: "flip", color: "white" })),
-                                    React.createElement(TouchableOpacity, { onPress: () => {
-                                            if (uri) {
-                                                Image.getSize(uri, (width, height) => {
-                                                    let success = true;
-                                                    const data = {
-                                                        uri,
-                                                        base64,
-                                                        width,
-                                                        height,
-                                                        cropped: this.cropped
-                                                    };
-                                                    if (onBeforePictureChoosed) {
-                                                        success = onBeforePictureChoosed(data);
-                                                    }
-                                                    ;
-                                                    if (success) {
-                                                        onPictureChoosed(data);
-                                                        this.onToggleModal();
-                                                    }
-                                                });
-                                            }
-                                        }, style: {
-                                            marginLeft: 10, width: 60, height: 32, alignItems: 'center', justifyContent: 'center',
-                                        } },
-                                        React.createElement(Text, { style: { fontWeight: '500', color: 'white', fontSize: 18 } }, btnTexts.done)))))))
+                                        React.createElement(MaterialIcons, { size: 20, name: "flip", color: "white" })))),
+                            React.createElement(View, { style: { flexDirection: 'row' } },
+                                React.createElement(TouchableOpacity, { onPress: () => {
+                                        if (uri) {
+                                            Image.getSize(uri, (width, height) => {
+                                                let success = true;
+                                                const data = {
+                                                    uri,
+                                                    base64,
+                                                    width,
+                                                    height,
+                                                    cropped: this.cropped
+                                                };
+                                                if (onBeforePictureChoosed) {
+                                                    success = onBeforePictureChoosed(data);
+                                                }
+                                                ;
+                                                if (success) {
+                                                    onPictureChoosed(data);
+                                                    this.onToggleModal();
+                                                }
+                                            });
+                                        }
+                                    }, style: {
+                                        marginLeft: 10, width: 60, height: 32, alignItems: 'center', justifyContent: 'center',
+                                    } },
+                                    React.createElement(Text, { style: { fontWeight: '500', color: 'white', fontSize: 18 } }, btnTexts.done))))))
                     : (React.createElement(View, { style: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' } },
                         React.createElement(TouchableOpacity, { onPress: () => this.setState({ cropMode: false }), style: {
                                 width: 32, height: 32, alignItems: 'center', justifyContent: 'center',

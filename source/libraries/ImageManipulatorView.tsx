@@ -506,7 +506,7 @@ class ImageManipulatorView extends Component<Props, State> {
                         </View>
                       )
                     }
-                    <View style={{ flexDirection: 'row '}}>
+                    <View style={{ flexDirection: 'row'}}>
                       <TouchableOpacity 
                         onPress={() => {
                           if (uri) {
