@@ -503,38 +503,41 @@ class ImageManipulatorView extends Component<Props, State> {
                           >
                             <MaterialIcons size={20} name="flip" color="white" />
                           </TouchableOpacity>
-                          <TouchableOpacity onPress={() => {
-                            if (uri) {
-                              Image.getSize(uri, (width, height) => {
-                                let success = true;
-                                const data: ChoosedPicture = {
-                                  uri,
-                                  base64,
-                                  width,
-                                  height,
-                                  cropped: this.cropped
-                                };
-
-                                if (onBeforePictureChoosed) {
-                                  success = onBeforePictureChoosed(data);
-                                };
-
-                                if (success) {
-                                  onPictureChoosed(data);
-                                  this.onToggleModal();
-                                }
-                              });
-                            }
-                          }}
-                            style={{
-                              marginLeft: 10, width: 60, height: 32, alignItems: 'center', justifyContent: 'center',
-                            }}
-                          >
-                            <Text style={{ fontWeight: '500', color: 'white', fontSize: 18 }}>{btnTexts.done}</Text>
-                          </TouchableOpacity>
                         </View>
                       )
                     }
+                    <View style={{ flexDirection: 'row '}}>
+                      <TouchableOpacity 
+                        onPress={() => {
+                          if (uri) {
+                            Image.getSize(uri, (width, height) => {
+                              let success = true;
+                              const data: ChoosedPicture = {
+                                uri,
+                                base64,
+                                width,
+                                height,
+                                cropped: this.cropped
+                              };
+
+                              if (onBeforePictureChoosed) {
+                                success = onBeforePictureChoosed(data);
+                              };
+
+                              if (success) {
+                                onPictureChoosed(data);
+                                this.onToggleModal();
+                              }
+                            });
+                          }
+                        }}
+                        style={{
+                          marginLeft: 10, width: 60, height: 32, alignItems: 'center', justifyContent: 'center',
+                        }}
+                      >
+                        <Text style={{ fontWeight: '500', color: 'white', fontSize: 18 }}>{btnTexts.done}</Text>
+                      </TouchableOpacity>
+                    </View>
                   </View>
                 </View>
               )
