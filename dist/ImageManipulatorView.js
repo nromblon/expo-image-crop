@@ -339,8 +339,8 @@ class ImageManipulatorView extends Component {
                                     :
                                         this.props.icons.crop,
                                 React.createElement(Text, { style: { fontWeight: '500', color: 'white', fontSize: 18 } }, !processing ? btnTexts.crop : btnTexts.processing))))))),
-            React.createElement(View, { style: { flex: 1, backgroundColor: 'black', width: Dimensions.get('window').width } },
-                React.createElement(ScrollView, { style: { position: 'relative', flex: 1 }, contentContainerStyle: { backgroundColor: 'black', justifyContent: 'center' }, bounces: false, scrollEnabled: this.state.enableScroll, onScrollEndDrag: e => this.setState({ scrollOffsetY: e.nativeEvent.contentOffset.y }) },
+            React.createElement(View, { style: { flex: 1, justifyContent: 'center', backgroundColor: 'black', width: Dimensions.get('window').width } },
+                React.createElement(ScrollView, { style: { position: 'relative', flex: 1 }, contentContainerStyle: { flex: 1, backgroundColor: 'black', justifyContent: 'center' }, bounces: false, scrollEnabled: this.state.enableScroll, onScrollEndDrag: e => this.setState({ scrollOffsetY: e.nativeEvent.contentOffset.y }) },
                     uri &&
                         React.createElement(AutoHeightImage, { source: { uri }, resizeMode: 'contain', width: screenWidth, onLayout: e => this.setState({ imageLayout: e.nativeEvent.layout }) }),
                     !!cropMode && (React.createElement(ImageCropOverlay, { onStartLayoutChange: () => this.setState({ enableScroll: false }), onLayoutChanged: (top, left, width, height) => {

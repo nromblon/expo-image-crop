@@ -569,10 +569,10 @@ class ImageManipulatorView extends Component<Props, State> {
             }
           </ScrollView>
         </SafeAreaView>
-        <View style={{ flex: 1, backgroundColor: 'black', width: Dimensions.get('window').width }}>
+        <View style={{ flex: 1, justifyContent: 'center', backgroundColor: 'black', width: Dimensions.get('window').width }}>
           <ScrollView
             style={{ position: 'relative', flex: 1 }}
-            contentContainerStyle={{ backgroundColor: 'black', justifyContent: 'center' }}
+            contentContainerStyle={{ flex: 1, backgroundColor: 'black', justifyContent: 'center' }}
             bounces={false}
             scrollEnabled={this.state.enableScroll}
             onScrollEndDrag={e => this.setState({ scrollOffsetY: e.nativeEvent.contentOffset.y })}
