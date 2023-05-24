@@ -317,7 +317,7 @@ class ImageManipulatorView extends Component<Props, State> {
     const { saveOptions } = this.props;
     return await ImageManipulator.manipulateAsync(
       uri,
-      [{ rotate: -90 }, { resize: { width: width } }],
+      [{ rotate: -90 }],
       saveOptions
     );
   };
